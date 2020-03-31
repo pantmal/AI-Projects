@@ -1,0 +1,32 @@
+============================== prooftrans ============================
+Prover9 (32) version Dec-2007, Dec 2007.
+Process 2380 was started by Pantelis on DESKTOP-BL6ONPE,
+Mon Jan 20 15:47:03 2020
+The command was "/cygdrive/c/Program Files (x86)/Prover9-Mace4/bin-win32/prover9".
+============================== end of head ===========================
+
+============================== end of input ==========================
+
+============================== PROOF =================================
+
+% -------- Comments from original proof --------
+% Proof 1 at 0.01 (+ 0.03) seconds.
+% Length of proof is 12.
+% Level of proof is 5.
+% Maximum clause weight is 3.
+% Given clauses 0.
+
+1 (exists x (MemberOf(x,PK) & Liberal(x) & -Right(x))) # label(non_clause) # label(goal).  [goal].
+2 -MemberOf(x,PK) | Right(x) | Liberal(x).  [assumption].
+4 MemberOf(Vangelis,PK).  [assumption].
+6 -MemberOf(x,PK) | -Liberal(x) | Right(x).  [deny(1)].
+8 -Right(x) | -Likes(x,Socialism).  [assumption].
+9 Right(Vangelis) | Liberal(Vangelis).  [resolve(2,a,4,a)].
+12 -Liberal(Vangelis) | Right(Vangelis).  [resolve(6,a,4,a)].
+16 Liberal(Vangelis) | -Likes(Vangelis,Socialism).  [resolve(9,a,8,a)].
+19 -Liberal(Vangelis) | -Likes(Vangelis,Socialism).  [resolve(12,b,8,a)].
+23 Likes(Vangelis,Socialism).  [assumption].
+30 -Likes(Vangelis,Socialism) | -Likes(Vangelis,Socialism).  [resolve(19,a,16,a)].
+31 $F.  [copy(30),merge(b),unit_del(a,23)].
+
+============================== end of proof ==========================

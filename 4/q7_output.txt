@@ -1,0 +1,154 @@
+============================== Prover9 ===============================
+Prover9 (32) version Dec-2007, Dec 2007.
+Process 11732 was started by Pantelis on DESKTOP-BL6ONPE,
+Mon Jan 20 15:48:06 2020
+The command was "/cygdrive/c/Program Files (x86)/Prover9-Mace4/bin-win32/prover9".
+============================== end of head ===========================
+
+============================== INPUT =================================
+assign(report_stderr,2).
+set(ignore_option_dependencies).
+if(Prover9).
+% Conditional input included.
+assign(max_seconds,60).
+end_if.
+if(Mace4).
+% Conditional input omitted.
+end_if.
+if(Prover9).
+% Conditional input included.
+assign(report_stderr,2).
+set(ignore_option_dependencies).
+end_if.
+
+formulas(assumptions).
+-P(x1,y1) | Q(x1).
+-R(z1) | S(x1,z1,F(x1,z1)).
+end_of_list.
+
+formulas(goals).
+(all x all y all z exists w ((P(x,y) -> Q(x)) & (R(z) -> S(x,z,w)))).
+end_of_list.
+
+============================== end of input ==========================
+
+% Enabling option dependencies (ignore applies only on input).
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 (all x all y all z exists w ((P(x,y) -> Q(x)) & (R(z) -> S(x,z,w)))) # label(non_clause) # label(goal).  [goal].
+
+============================== end of process non-clausal formulas ===
+
+============================== PROCESS INITIAL CLAUSES ===============
+
+% Clauses before input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+-P(x,y) | Q(x).  [assumption].
+-R(x) | S(y,x,F(y,x)).  [assumption].
+P(c1,c2) | R(c3).  [deny(1)].
+P(c1,c2) | -S(c1,c3,x).  [deny(1)].
+-Q(c1) | R(c3).  [deny(1)].
+-Q(c1) | -S(c1,c3,x).  [deny(1)].
+end_of_list.
+
+formulas(demodulators).
+end_of_list.
+
+============================== PREDICATE ELIMINATION =================
+
+Eliminating P/2
+2 P(c1,c2) | R(c3).  [deny(1)].
+3 -P(x,y) | Q(x).  [assumption].
+Derived: R(c3) | Q(c1).  [resolve(2,a,3,a)].
+4 P(c1,c2) | -S(c1,c3,x).  [deny(1)].
+Derived: -S(c1,c3,x) | Q(c1).  [resolve(4,a,3,a)].
+
+Eliminating R/1
+5 -Q(c1) | R(c3).  [deny(1)].
+6 -R(x) | S(y,x,F(y,x)).  [assumption].
+Derived: -Q(c1) | S(x,c3,F(x,c3)).  [resolve(5,b,6,a)].
+7 R(c3) | Q(c1).  [resolve(2,a,3,a)].
+Derived: Q(c1) | S(x,c3,F(x,c3)).  [resolve(7,a,6,a)].
+
+Eliminating Q/1
+8 -S(c1,c3,x) | Q(c1).  [resolve(4,a,3,a)].
+9 -Q(c1) | -S(c1,c3,x).  [deny(1)].
+Derived: -S(c1,c3,x) | -S(c1,c3,y).  [resolve(8,b,9,a)].
+10 -Q(c1) | S(x,c3,F(x,c3)).  [resolve(5,b,6,a)].
+11 Q(c1) | S(x,c3,F(x,c3)).  [resolve(7,a,6,a)].
+Derived: S(x,c3,F(x,c3)) | S(y,c3,F(y,c3)).  [resolve(11,a,10,a)].
+
+============================== end predicate elimination =============
+
+Auto_denials:  (non-Horn, no changes).
+
+Term ordering decisions:
+Predicate symbol precedence:  predicate_order([ S ]).
+Function symbol precedence:  function_order([ c1, c3, F ]).
+After inverse_order:  (no changes).
+Unfolding symbols: (none).
+
+Auto_inference settings:
+  % set(binary_resolution).  % (non-Horn)
+  % set(neg_ur_resolution).  % (non-Horn, less than 100 clauses)
+
+Auto_process settings:
+  % set(factor).  % (non-Horn)
+  % set(unit_deletion).  % (non-Horn)
+
+============================== PROOF =================================
+
+% Proof 1 at 0.01 (+ 0.01) seconds.
+% Length of proof is 16.
+% Level of proof is 6.
+% Maximum clause weight is 12.
+% Given clauses 0.
+
+1 (all x all y all z exists w ((P(x,y) -> Q(x)) & (R(z) -> S(x,z,w)))) # label(non_clause) # label(goal).  [goal].
+2 P(c1,c2) | R(c3).  [deny(1)].
+3 -P(x,y) | Q(x).  [assumption].
+4 P(c1,c2) | -S(c1,c3,x).  [deny(1)].
+5 -Q(c1) | R(c3).  [deny(1)].
+6 -R(x) | S(y,x,F(y,x)).  [assumption].
+7 R(c3) | Q(c1).  [resolve(2,a,3,a)].
+8 -S(c1,c3,x) | Q(c1).  [resolve(4,a,3,a)].
+9 -Q(c1) | -S(c1,c3,x).  [deny(1)].
+10 -Q(c1) | S(x,c3,F(x,c3)).  [resolve(5,b,6,a)].
+11 Q(c1) | S(x,c3,F(x,c3)).  [resolve(7,a,6,a)].
+12 -S(c1,c3,x) | -S(c1,c3,y).  [resolve(8,b,9,a)].
+13 S(x,c3,F(x,c3)) | S(y,c3,F(y,c3)).  [resolve(11,a,10,a)].
+14 -S(c1,c3,x).  [factor(12,a,b)].
+15 S(x,c3,F(x,c3)).  [factor(13,a,b)].
+16 $F.  [resolve(15,a,14,a)].
+
+============================== end of proof ==========================
+
+============================== STATISTICS ============================
+
+Given=0. Generated=4. Kept=4. proofs=1.
+Usable=0. Sos=1. Demods=0. Limbo=2, Disabled=12. Hints=0.
+Weight_deleted=0. Literals_deleted=0.
+Forward_subsumed=0. Back_subsumed=0.
+Sos_limit_deleted=0. Sos_displaced=0. Sos_removed=0.
+New_demodulators=0 (0 lex), Back_demodulated=0. Back_unit_deleted=0.
+Demod_attempts=0. Demod_rewrites=0.
+Res_instance_prunes=0. Para_instance_prunes=0. Basic_paramod_prunes=0.
+Nonunit_fsub_feature_tests=0. Nonunit_bsub_feature_tests=1.
+Megabytes=0.02.
+User_CPU=0.03, System_CPU=0.01, Wall_clock=0.
+
+============================== end of statistics =====================
+
+============================== end of search =========================
+
+THEOREM PROVED
+
+Exiting with 1 proof.
+
+Process 11732 exit (max_proofs) Mon Jan 20 15:48:06 2020

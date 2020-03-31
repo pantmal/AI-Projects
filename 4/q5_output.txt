@@ -1,0 +1,179 @@
+============================== Prover9 ===============================
+Prover9 (32) version Dec-2007, Dec 2007.
+Process 2380 was started by Pantelis on DESKTOP-BL6ONPE,
+Mon Jan 20 15:47:03 2020
+The command was "/cygdrive/c/Program Files (x86)/Prover9-Mace4/bin-win32/prover9".
+============================== end of head ===========================
+
+============================== INPUT =================================
+assign(report_stderr,2).
+set(ignore_option_dependencies).
+if(Prover9).
+% Conditional input included.
+assign(max_seconds,60).
+end_if.
+if(Mace4).
+% Conditional input omitted.
+end_if.
+
+formulas(assumptions).
+MemberOf(Anthony,PK).
+MemberOf(Vangelis,PK).
+MemberOf(Mary,PK).
+-MemberOf(x1,PK) | Right(x1) | Liberal(x1).
+-Right(x2) | -Likes(x2,Socialism).
+Likes(x3,Capitalism) | -Liberal(x3).
+-Likes(Vangelis,y4) | -Likes(Anthony,y4).
+Likes(Vangelis,y4) | Likes(Anthony,y4).
+Likes(Vangelis,Socialism).
+Likes(Vangelis,Capitalism).
+end_of_list.
+
+formulas(goals).
+(exists x (MemberOf(x,PK) & Liberal(x) & -Right(x))).
+end_of_list.
+
+============================== end of input ==========================
+
+% Enabling option dependencies (ignore applies only on input).
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 (exists x (MemberOf(x,PK) & Liberal(x) & -Right(x))) # label(non_clause) # label(goal).  [goal].
+
+============================== end of process non-clausal formulas ===
+
+============================== PROCESS INITIAL CLAUSES ===============
+
+% Clauses before input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+MemberOf(Anthony,PK).  [assumption].
+MemberOf(Vangelis,PK).  [assumption].
+MemberOf(Mary,PK).  [assumption].
+-MemberOf(x,PK) | Right(x) | Liberal(x).  [assumption].
+-Right(x) | -Likes(x,Socialism).  [assumption].
+Likes(x,Capitalism) | -Liberal(x).  [assumption].
+-Likes(Vangelis,x) | -Likes(Anthony,x).  [assumption].
+Likes(Vangelis,x) | Likes(Anthony,x).  [assumption].
+Likes(Vangelis,Socialism).  [assumption].
+Likes(Vangelis,Capitalism).  [assumption].
+-MemberOf(x,PK) | -Liberal(x) | Right(x).  [deny(1)].
+end_of_list.
+
+formulas(demodulators).
+end_of_list.
+
+============================== PREDICATE ELIMINATION =================
+
+Eliminating MemberOf/2
+2 -MemberOf(x,PK) | Right(x) | Liberal(x).  [assumption].
+3 MemberOf(Anthony,PK).  [assumption].
+4 MemberOf(Vangelis,PK).  [assumption].
+5 MemberOf(Mary,PK).  [assumption].
+Derived: Right(Anthony) | Liberal(Anthony).  [resolve(2,a,3,a)].
+Derived: Right(Vangelis) | Liberal(Vangelis).  [resolve(2,a,4,a)].
+Derived: Right(Mary) | Liberal(Mary).  [resolve(2,a,5,a)].
+6 -MemberOf(x,PK) | -Liberal(x) | Right(x).  [deny(1)].
+Derived: -Liberal(Anthony) | Right(Anthony).  [resolve(6,a,3,a)].
+Derived: -Liberal(Vangelis) | Right(Vangelis).  [resolve(6,a,4,a)].
+Derived: -Liberal(Mary) | Right(Mary).  [resolve(6,a,5,a)].
+
+Eliminating Right/1
+7 Right(Anthony) | Liberal(Anthony).  [resolve(2,a,3,a)].
+8 -Right(x) | -Likes(x,Socialism).  [assumption].
+Derived: Liberal(Anthony) | -Likes(Anthony,Socialism).  [resolve(7,a,8,a)].
+9 Right(Vangelis) | Liberal(Vangelis).  [resolve(2,a,4,a)].
+Derived: Liberal(Vangelis) | -Likes(Vangelis,Socialism).  [resolve(9,a,8,a)].
+10 Right(Mary) | Liberal(Mary).  [resolve(2,a,5,a)].
+Derived: Liberal(Mary) | -Likes(Mary,Socialism).  [resolve(10,a,8,a)].
+11 -Liberal(Anthony) | Right(Anthony).  [resolve(6,a,3,a)].
+Derived: -Liberal(Anthony) | -Likes(Anthony,Socialism).  [resolve(11,b,8,a)].
+12 -Liberal(Vangelis) | Right(Vangelis).  [resolve(6,a,4,a)].
+Derived: -Liberal(Vangelis) | -Likes(Vangelis,Socialism).  [resolve(12,b,8,a)].
+13 -Liberal(Mary) | Right(Mary).  [resolve(6,a,5,a)].
+Derived: -Liberal(Mary) | -Likes(Mary,Socialism).  [resolve(13,b,8,a)].
+
+Eliminating Liberal/1
+14 Liberal(Anthony) | -Likes(Anthony,Socialism).  [resolve(7,a,8,a)].
+15 Likes(x,Capitalism) | -Liberal(x).  [assumption].
+Derived: -Likes(Anthony,Socialism) | Likes(Anthony,Capitalism).  [resolve(14,a,15,b)].
+16 Liberal(Vangelis) | -Likes(Vangelis,Socialism).  [resolve(9,a,8,a)].
+Derived: -Likes(Vangelis,Socialism) | Likes(Vangelis,Capitalism).  [resolve(16,a,15,b)].
+17 Liberal(Mary) | -Likes(Mary,Socialism).  [resolve(10,a,8,a)].
+Derived: -Likes(Mary,Socialism) | Likes(Mary,Capitalism).  [resolve(17,a,15,b)].
+18 -Liberal(Anthony) | -Likes(Anthony,Socialism).  [resolve(11,b,8,a)].
+Derived: -Likes(Anthony,Socialism) | -Likes(Anthony,Socialism).  [resolve(18,a,14,a)].
+19 -Liberal(Vangelis) | -Likes(Vangelis,Socialism).  [resolve(12,b,8,a)].
+Derived: -Likes(Vangelis,Socialism) | -Likes(Vangelis,Socialism).  [resolve(19,a,16,a)].
+20 -Liberal(Mary) | -Likes(Mary,Socialism).  [resolve(13,b,8,a)].
+Derived: -Likes(Mary,Socialism) | -Likes(Mary,Socialism).  [resolve(20,a,17,a)].
+
+============================== end predicate elimination =============
+
+Auto_denials:  (non-Horn, no changes).
+
+Term ordering decisions:
+Predicate symbol precedence:  predicate_order([ Likes ]).
+Function symbol precedence:  function_order([ Vangelis, Capitalism, Socialism, Anthony, Mary ]).
+After inverse_order:  (no changes).
+Unfolding symbols: (none).
+
+Auto_inference settings:
+  % set(binary_resolution).  % (non-Horn)
+  % set(neg_ur_resolution).  % (non-Horn, less than 100 clauses)
+
+Auto_process settings:
+  % set(factor).  % (non-Horn)
+  % set(unit_deletion).  % (non-Horn)
+
+============================== PROOF =================================
+
+% Proof 1 at 0.01 (+ 0.03) seconds.
+% Length of proof is 12.
+% Level of proof is 5.
+% Maximum clause weight is 3.
+% Given clauses 0.
+
+1 (exists x (MemberOf(x,PK) & Liberal(x) & -Right(x))) # label(non_clause) # label(goal).  [goal].
+2 -MemberOf(x,PK) | Right(x) | Liberal(x).  [assumption].
+4 MemberOf(Vangelis,PK).  [assumption].
+6 -MemberOf(x,PK) | -Liberal(x) | Right(x).  [deny(1)].
+8 -Right(x) | -Likes(x,Socialism).  [assumption].
+9 Right(Vangelis) | Liberal(Vangelis).  [resolve(2,a,4,a)].
+12 -Liberal(Vangelis) | Right(Vangelis).  [resolve(6,a,4,a)].
+16 Liberal(Vangelis) | -Likes(Vangelis,Socialism).  [resolve(9,a,8,a)].
+19 -Liberal(Vangelis) | -Likes(Vangelis,Socialism).  [resolve(12,b,8,a)].
+23 Likes(Vangelis,Socialism).  [assumption].
+30 -Likes(Vangelis,Socialism) | -Likes(Vangelis,Socialism).  [resolve(19,a,16,a)].
+31 $F.  [copy(30),merge(b),unit_del(a,23)].
+
+============================== end of proof ==========================
+
+============================== STATISTICS ============================
+
+Given=0. Generated=9. Kept=7. proofs=1.
+Usable=0. Sos=0. Demods=0. Limbo=7, Disabled=28. Hints=0.
+Weight_deleted=0. Literals_deleted=0.
+Forward_subsumed=1. Back_subsumed=0.
+Sos_limit_deleted=0. Sos_displaced=0. Sos_removed=0.
+New_demodulators=0 (0 lex), Back_demodulated=0. Back_unit_deleted=0.
+Demod_attempts=0. Demod_rewrites=0.
+Res_instance_prunes=0. Para_instance_prunes=0. Basic_paramod_prunes=0.
+Nonunit_fsub_feature_tests=0. Nonunit_bsub_feature_tests=0.
+Megabytes=0.02.
+User_CPU=0.01, System_CPU=0.03, Wall_clock=0.
+
+============================== end of statistics =====================
+
+============================== end of search =========================
+
+THEOREM PROVED
+
+Exiting with 1 proof.
+
+Process 2380 exit (max_proofs) Mon Jan 20 15:47:03 2020

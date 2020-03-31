@@ -1,0 +1,23 @@
+assign(report_stderr, 2).
+set(ignore_option_dependencies). % GUI handles dependencies
+
+if(Prover9). % Options for Prover9
+  assign(max_seconds, 60).
+end_if.
+
+if(Mace4).   % Options for Mace4
+  assign(max_seconds, 60).
+end_if.
+
+formulas(assumptions).
+
+-P(x1,y1) | Q(x1).
+-R(z1) | S(x1,z1,F(x1,z1)).
+
+end_of_list.
+
+formulas(goals).
+
+(all x all y all z exists w((P(x,y)->Q(x)) & (R(z)->S(x,z,w)))).
+
+end_of_list.
